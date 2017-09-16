@@ -39,6 +39,10 @@ urxvt*shading: 20
 urxvt*tintColor: #000000
 urxvt*blurRadius: 5
 
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: firefox
+URxvt.matcher.button: 1
+
 URxvt.scrollBar: false
 URxvt.font:      xft:xos4 Terminus:size=13:antialias=true
 URxvt.boldFont:  xft:xos4 Terminus:size=13:antialias=true
