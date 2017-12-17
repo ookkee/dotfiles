@@ -40,7 +40,7 @@ urxvt*tintColor: #000000
 urxvt*blurRadius: 5
 
 URxvt.perl-ext-common: default,matcher
-URxvt.url-launcher: firefox
+URxvt.url-launcher: xdg-open
 URxvt.matcher.button: 1
 
 URxvt.scrollBar: false
