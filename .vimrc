@@ -108,6 +108,10 @@ let g:easytags_auto_highlight = 0
 " Online-thesaurus
 nmap <leader>K :OnlineThesaurusCurrentWord<cr>
 
+" Tab navigation
+nnoremap H gT
+nnoremap L gt
+
 " Bind Hexmode
 nnoremap <C-H> :Hexmode<CR>
 inoremap <C-H> <Esc>:Hexmode<CR>
@@ -156,3 +160,4 @@ function ToggleHex()
   let &modifiable=l:oldmodifiable
 endfunction
 
+autocmd FileType make setlocal noexpandtab

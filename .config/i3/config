@@ -11,10 +11,29 @@
 
 set $mod Mod1
 
+set_from_resource $darkred     color1  #000000
+set_from_resource $red         color9  #000000
+set_from_resource $darkgreen   color2  #000000
+set_from_resource $green       color10 #000000
+set_from_resource $darkyellow  color3  #000000
+set_from_resource $yellow      color11 #000000
+set_from_resource $darkblue    color4  #000000
+set_from_resource $blue        color12 #000000
+set_from_resource $darkmagenta color5  #000000
+set_from_resource $magenta     color13 #000000
+set_from_resource $darkcyan    color6  #000000
+set_from_resource $cyan        color14 #000000
+set_from_resource $darkwhite   color7  #000000
+set_from_resource $white       color15 #000000
+# Use custom colors for black
+set $black       #282828
+set $darkblack   #1d2021
+set $transparent #00000080
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 10
-font pango:xos4 Terminus Bold Semi-Condensed
+font xft:dina 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -123,6 +142,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# working on creating layout for workspace 10
+#bindsym $mod+F1 exec --no-startup-id i3-msg 'workspace 8; exec i3-sensible-terminal; exec i3-sensible-terminal; exec i3-sensible-terminal; layout stacked; move right;'
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -153,24 +174,54 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3blocks -c ~/.config/i3blocks/conf
+        i3bar_command i3bar -t
+        font pango:dina, symbola 10
 
         colors {
-            focused_workspace #dd8800 #dd8800 #000000
+            statusline          $white
+            background          $transparent
+            separator           $white
+
+            focused_workspace   #dd8800       #dd8800       #000000
+            inactive_workspace  $transparent  $transparent  $white
+            active_workspace    $transparent  $transparent  $white
+            urgent_workspace    $darkred      $darkred      $transparent
+            binding_mode        $darkred      $darkred      $transparent
         }
 }
 
 # window color
-# class         border    backgr    text      indicator child_border
-client.focused  #dd8800   #dd8800   #000000   #ffebcc   #dd8800
-
-# networkmanager applet
-exec --no-startup-id wicd-client --tray
+# class                 border    backgr        text      indicator child_border
+client.focused          #dd8800   #dd8800       #000000   #ffebcc   #dd8800
+client.unfocused        $black    $transparent  $white    $white    $black
+client.focused_inactive $black    $transparent  $white    $white    $black
 
 # volume mediakeys
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
-# pseudo-lock (ASSUMING LXDM)
-bindsym $mod+Shift+z exec "lxdm -c USER_SWITCH"
+# other mediakeys
+bindsym XF86AudioPlay exec --no-startup-id cmus-remote --pause
+bindsym XF86AudioStop exec --no-startup-id cmus-remote --stop
+bindsym XF86AudioNext exec --no-startup-id cmus-remote --next
+bindsym XF86AudioPrev exec --no-startup-id cmus-remote --prev
+
+# lock screen
+bindsym $mod+Shift+z exec --no-startup-id ~/bin/lock
+
+# AUTOSTART
+
+# Compton (transparency)
+exec --no-startup-id compton -i 0.85
+# bluetooth applet
+exec --no-startup-id blueman-applet
+# networkmanager applet
+exec --no-startup-id nm-applet
+# wallpaper
+exec --no-startup-id feh --randomize --bg-scale ~/pictures/wallpapers/
+# notifications
+exec --no-startup-id dunst -config /home/ookkee/.config/dunst/dunstrc
+# conky
+exec --no-startup-id conky -c /home/ookkee/.config/conky/conkyrc
